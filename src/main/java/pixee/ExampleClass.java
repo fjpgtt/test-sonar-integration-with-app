@@ -14,11 +14,11 @@ public class ExampleClass {
     }
 
     // Error: Division by zero
-    public void divisionByZero() {
-        int x = 10;
-        int y = 0;
-        int result = x / y; // Division by zero
-    }
+//    public void divisionByZero() {
+//        int x = 10;
+//        int y = 0;
+//        int result = x / y; // Division by zero
+//    }
 
     // Error: Unused private method
     private void unusedMethod() {
