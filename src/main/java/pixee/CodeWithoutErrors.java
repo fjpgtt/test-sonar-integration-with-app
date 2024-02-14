@@ -12,10 +12,6 @@ public class CodeWithoutErrors {
         this.variable = variable;
     }
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
     public int sum(int a, int b) {
         return a + b;
     }
