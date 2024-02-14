@@ -13,12 +13,6 @@ public class ExampleClass {
         }
     }
 
-    // Error: Null pointer dereference
-    public void nullPointerError() {
-        String s = null;
-        int length = s.length(); // Attempting to access length of null reference
-    }
-
     // Error: Division by zero
     public void divisionByZero() {
         int x = 10;
