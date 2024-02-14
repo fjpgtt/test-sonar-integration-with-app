@@ -14,7 +14,7 @@ public class Main {
         System.out.println("Hello world!");
     }
 
-    public void log(){logger.info(String.format("Processing AutoDelegate annotations %d", myIntegerValue));}
+    public void log(){logger.info(String.format("Processing annotations %d", myIntegerValue));}
 
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 }
