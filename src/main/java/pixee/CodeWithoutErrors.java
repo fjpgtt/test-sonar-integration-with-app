@@ -16,7 +16,7 @@ public class CodeWithoutErrors {
         return a + b;
     }
 
-    private int zero(){
-        return 0;
+    private int one(){
+        return 1;
     }
 }
