@@ -7,6 +7,7 @@ public class Main {
     private static int myIntegerValue;
 
     public static void main(String[] args) {
+
         myIntegerValue = Integer.valueOf("3").intValue();
     }
 
