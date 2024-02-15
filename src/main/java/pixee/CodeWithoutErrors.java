@@ -15,4 +15,8 @@ public class CodeWithoutErrors {
     public int sum(int a, int b) {
         return a + b;
     }
+
+    private int zero(){
+        return 0;
+    }
 }
