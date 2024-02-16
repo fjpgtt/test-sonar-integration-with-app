@@ -7,8 +7,7 @@ public class MyClass {
         System.out.println("Hello world");
         System.out.println("Hello world");
         System.out.println("Hello world");
-        System.out.println("Hello world");
-        System.out.println("Hello world");
+        
         return true;
     }
 }
