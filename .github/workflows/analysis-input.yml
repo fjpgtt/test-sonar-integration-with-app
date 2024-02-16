@@ -21,12 +21,14 @@ jobs:
         run: |
           PR_NUMBER=${{ join(github.event.check_run.pull_requests.*.number, '') }}
           echo "$PR_NUMBER"
+          SENDER = ${{github.event.check_run.sender}}
           
           URL="https://sonarcloud.io/api/issues/search?componentKeys=fjpgtt_test-sonar-integration-with-app&resolved=false"
           
           if [ -n "$PR_NUMBER" ]; then
             URL="${URL}&pullRequest=$PR_NUMBER"
           fi
+          echo "$SENDER"
           ANALYSIS_SHA=${{ github.event.check_run.head_sha }}
           echo "$ANALYSIS_SHA"
           
