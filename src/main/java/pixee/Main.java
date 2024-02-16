@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        myIntegerValue = Integer.valueOf("3").intValue();
+        myIntegerValue = Integer.parseInt("3");
     }
 
     public void log(){logger.info(String.format("Processing annotations %d", myIntegerValue));}
