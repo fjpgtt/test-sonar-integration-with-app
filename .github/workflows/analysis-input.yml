@@ -27,6 +27,8 @@ jobs:
           if [ -n "$PR_NUMBER" ]; then
             URL="${URL}&pullRequest=$PR_NUMBER"
           fi
+          ANALYSIS_SHA=${{ github.event.check_run.head_sha }}
+          echo "$ANALYSIS_SHA"
           
           curl -v "$URL" -o sonar_issues.json
       - name: SonarCloud Upload file and trigger analysis
