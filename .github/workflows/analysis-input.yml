@@ -10,7 +10,7 @@ permissions:
 jobs:
   analysis-input:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.actor, 'pixee-') && github.event.check_run.name == 'SonarCloud Code Analysis' }}
+    if: ${{ github.event.check_run.name == 'SonarCloud Code Analysis' }}
     name: Upload file and trigger analysis
     timeout-minutes: 6
 
