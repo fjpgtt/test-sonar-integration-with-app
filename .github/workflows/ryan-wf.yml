@@ -27,7 +27,7 @@ jobs:
             URL="${URL}&pullRequest=$PR_NUMBER"
           fi
 
-          echo $SENDER
+          echo "$SENDER"
           curl -v -H "Authorization: Bearer $SONAR_TOKEN" "$URL" -o sonar_issues.json
           cat sonar_issues.json
           ANALYSIS_SHA=${{ github.event.check_run.head_sha }}
