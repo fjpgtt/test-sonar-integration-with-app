@@ -1,4 +1,4 @@
-name: Upload file and trigger analysis - pull request
+name: Pixeebot Fix
 
 on:
   check_run:
@@ -7,34 +7,22 @@ on:
 permissions:
   id-token: write
 
+env:
+  SONAR_PROJECT_KEY: fjpgtt_test-sonar-integration-with-app
+
 jobs:
-  analysis-input:
-    runs-on: ubuntu-latest
+  pixeebot-fix:
+    name: Pixeebot Fix
     if: ${{ !startsWith(github.actor, 'pixee') && github.event.check_run.name == 'SonarCloud Code Analysis' }}
-    name: Upload file and trigger analysis
+    runs-on: ubuntu-latest
     timeout-minutes: 6
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: SonarCloud download
-        run: |
-          PR_NUMBER=${{ join(github.event.check_run.pull_requests.*.number, '') }}
-          echo "$PR_NUMBER"
-          SENDER=${{ github.event.sender.login }}
-          
-          URL="https://sonarcloud.io/api/issues/search?componentKeys=fjpgtt_test-sonar-integration-with-app&resolved=false"
-          
-          if [ -n "$PR_NUMBER" ]; then
-            URL="${URL}&pullRequest=$PR_NUMBER"
-          fi
-          echo "$SENDER"
-          ANALYSIS_SHA=${{ github.event.check_run.head_sha }}
-          echo "$ANALYSIS_SHA"
-          
-          curl -v "$URL" -o sonar_issues.json
-      - name: SonarCloud Upload file and trigger analysis
+      - name: Upload file and trigger analysis
         uses: JesusCotlamee/pixee-actions/analysis-input@main
         with:
-          FILE: 'sonar_issues.json'
-          TOOL: 'sonar'
+          file: sonar_issues.json
+          tool: 'sonar'
+          sonar-component-key: ${{ env.SONAR_PROJECT_KEY }}
