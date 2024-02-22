@@ -55,7 +55,6 @@ private static final String HELLO_WORLD = "Hello world";
 
     // Error: Division by zero
     public void methodWithDivisionByZero() {
-        int x = 10;
         int y = 0;
         int result = x / y; // Division by zero
     }
