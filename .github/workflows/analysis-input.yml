@@ -3,6 +3,9 @@ name: Pixeebot Fix
 on:
   check_run:
     types: [ completed ]
+  push:
+    branches:
+      - main
 
 permissions:
   id-token: write
