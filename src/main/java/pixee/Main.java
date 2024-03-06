@@ -8,7 +8,9 @@ public class Main {
 
     public static void main(String[] args) {
         myIntegerValue = Integer.parseInt("3");
-        System.out.println("args = " );
+        System.out.println("args = ****+" );
+        System.out.println("args = ****+" );
+        System.out.println("args = ****+" );
     }
 
     public void log(){
