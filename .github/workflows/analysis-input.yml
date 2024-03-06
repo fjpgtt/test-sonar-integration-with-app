@@ -14,11 +14,10 @@ jobs:
   pixeebot-fix:
     name: Pixeebot Fix
     if: ${{
-      !contains(github.actor, 'bot') &&
+      (!contains(github.actor, 'bot') &&
       toJson(github.event.check_run.pull_requests) != '[]' &&
-      github.event.check_run.name == 'SonarCloud Code Analysis' &&
-      github.ref == 'refs/heads/main'
-      }}
+      github.event.check_run.name == 'SonarCloud Code Analysis') ||
+      github.ref == 'refs/heads/main'}}
     runs-on: ubuntu-latest
     timeout-minutes: 6
 
