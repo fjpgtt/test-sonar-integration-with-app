@@ -1,6 +1,18 @@
 package pixee;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class Main {
 
@@ -34,6 +46,34 @@ public class Main {
                     }
                 }
                 zipEntry = zipInputStream.getNextEntry();
+            }
+        }
+    }
+
+
+    public void downloadCodeWorkspace(final URL codeArchiveURL, final Path pathDestination)
+            throws IOException, URISyntaxException, InterruptedException {
+
+        final HttpRequest request = HttpRequest.newBuilder().uri(codeArchiveURL.toURI()).GET().build();
+        final HttpResponse<InputStream> response =
+                httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+
+        if (response.statusCode() != OK.getStatusCode()) {
+            throw new IllegalStateException("Failed to download file from " + codeArchiveURL);
+        }
+
+        try (final InputStream inputStream = response.body();
+             final ZipInputStream zipInputStream =
+                     ZipSecurity.createHardenedInputStream(new BufferedInputStream(inputStream))) {
+            ZipEntry zipEntry;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                if (!zipEntry.isDirectory()) {
+                    final String fileName = zipEntry.getName();
+                    final Path outputPath = pathDestination.resolve(fileName);
+
+                    Files.createDirectories(outputPath.getParent());
+                    Files.copy(zipInputStream, outputPath, StandardCopyOption.REPLACE_EXISTING);
+                }
             }
         }
     }
