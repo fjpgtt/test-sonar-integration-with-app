@@ -3,6 +3,7 @@ package pixee;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.http.HttpRequest;
@@ -65,8 +66,8 @@ public class Main {
         try (final InputStream inputStream = response.body();
              final ZipInputStream zipInputStream =
                      ZipSecurity.createHardenedInputStream(new BufferedInputStream(inputStream))) {
-            ZipEntry zipEntry;
-            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+            ZipEntry zipEntry = zipInputStream.getNextEntry();
+            while (zipEntry != null) {
                 if (!zipEntry.isDirectory()) {
                     final String fileName = zipEntry.getName();
                     final Path outputPath = pathDestination.resolve(fileName);
@@ -74,6 +75,7 @@ public class Main {
                     Files.createDirectories(outputPath.getParent());
                     Files.copy(zipInputStream, outputPath, StandardCopyOption.REPLACE_EXISTING);
                 }
+                zipEntry = zipInputStream.getNextEntry();
             }
         }
     }
