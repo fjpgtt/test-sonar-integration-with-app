@@ -25,17 +25,18 @@ public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    public static void unzipFromHttpResponse(HttpResponse<InputStream> response, Path destDir) throws IOException {
-        try (InputStream inputStream = response.body();
-             ZipInputStream zipInputStream = new ZipInputStream(new BufferedInputStream(inputStream))) {
+    public static void unzipFromHttpResponse(HttpResponse<InputStream> response, final Path pathDestination) throws IOException {
+        try (final InputStream inputStream = response.body();
+             final ZipInputStream zipInputStream =
+                     ZipSecurity.createHardenedInputStream(new BufferedInputStream(inputStream))) {
 
-            byte[] buffer = new byte[1024];
+            final byte[] buffer = new byte[1024];
             ZipEntry zipEntry = zipInputStream.getNextEntry();
             while (zipEntry != null) {
                 if (!zipEntry.isDirectory()) {
-                    Path outputPath = destDir.resolve(zipEntry.getName());
+                    final Path outputPath = pathDestination.resolve(zipEntry.getName());
                     Files.createDirectories(outputPath.getParent());
-                    try (OutputStream outputStream = Files.newOutputStream(outputPath)) {
+                    try (final OutputStream outputStream = Files.newOutputStream(outputPath)) {
                         int len;
                         while ((len = zipInputStream.read(buffer)) > 0) {
                             outputStream.write(buffer, 0, len);
