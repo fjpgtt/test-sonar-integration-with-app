@@ -50,33 +50,4 @@ public class Main {
             }
         }
     }
-
-
-    public void downloadCodeWorkspace(final URL codeArchiveURL, final Path pathDestination)
-            throws IOException, URISyntaxException, InterruptedException {
-
-        final HttpRequest request = HttpRequest.newBuilder().uri(codeArchiveURL.toURI()).GET().build();
-        final HttpResponse<InputStream> response =
-                httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
-
-        if (response.statusCode() != OK.getStatusCode()) {
-            throw new IllegalStateException("Failed to download file from " + codeArchiveURL);
-        }
-
-        try (final InputStream inputStream = response.body();
-             final ZipInputStream zipInputStream =
-                     ZipSecurity.createHardenedInputStream(new BufferedInputStream(inputStream))) {
-            ZipEntry zipEntry = zipInputStream.getNextEntry();
-            while (zipEntry != null) {
-                if (!zipEntry.isDirectory()) {
-                    final String fileName = zipEntry.getName();
-                    final Path outputPath = pathDestination.resolve(fileName);
-
-                    Files.createDirectories(outputPath.getParent());
-                    Files.copy(zipInputStream, outputPath, StandardCopyOption.REPLACE_EXISTING);
-                }
-                zipEntry = zipInputStream.getNextEntry();
-            }
-        }
-    }
 }
