@@ -30,18 +30,12 @@ public class Main {
              final ZipInputStream zipInputStream =
                      ZipSecurity.createHardenedInputStream(new BufferedInputStream(inputStream))) {
 
-            final byte[] buffer = new byte[1024];
             ZipEntry zipEntry = zipInputStream.getNextEntry();
             while (zipEntry != null) {
                 if (!zipEntry.isDirectory()) {
                     final Path outputPath = pathDestination.resolve(zipEntry.getName());
                     Files.createDirectories(outputPath.getParent());
-                    try (final OutputStream outputStream = Files.newOutputStream(outputPath)) {
-                        int len;
-                        while ((len = zipInputStream.read(buffer)) > 0) {
-                            outputStream.write(buffer, 0, len);
-                        }
-                    }
+                    Files.copy(zipInputStream, outputPath);
                 }
                 zipEntry = zipInputStream.getNextEntry();
             }
