@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Upload file and trigger analysis
-        uses: JesusCotlamee/pixee-actions/analysis-input@main
+        uses: JesusCotlamee/upload-tool-results-action@273ba8f7f4e77e7176cf0236de38c221763803b0
         with:
           tool: 'sonar'
           pr-number: ${{ github.event.inputs.pr-number }}
