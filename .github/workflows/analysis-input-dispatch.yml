@@ -1,0 +1,31 @@
+name: Pixeebot Fix Workflow Dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr-number:
+        description: Pull request number
+        required: true
+        type: number
+      file:
+        description: File that will be sent
+        default: pixeebot-fix-files/sonar.json
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+
+jobs:
+  pixeebot-fix:
+    name: Pixeebot Fix Workflow Dispatch
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+
+    steps:
+      - name: Upload file and trigger analysis
+        uses: JesusCotlamee/pixee-actions/analysis-input@main
+        with:
+          tool: 'sonar'
+          pr-number: ${{ github.event.inputs.pr-number }}
+          file: ${{ github.event.inputs.file }}
