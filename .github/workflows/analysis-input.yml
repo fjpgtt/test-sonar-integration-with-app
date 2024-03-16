@@ -16,6 +16,11 @@ jobs:
 
     steps:
       - name: Upload file and trigger analysis
-        uses: JesusCotlamee/upload-tool-results-action@0a3fdb3fc648b69fcebfc8d50f27866068b642d6
+        uses: JesusCotlamee/upload-tool-results-action@11e992663abff9146214622bdd0494f87eef535a
         with:
           tool: 'sonar'
+      - name: Analysis sha
+        shell: bash
+        run: |
+          ANALYSIS_SHA=${{ github.event.check_run.head_sha }}
+          echo "$ANALYSIS_SHA"
